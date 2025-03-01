@@ -11,12 +11,9 @@ const CaptainSignup = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     setCaptainData({
-      fullname: {
-        firstname: firstname,
-        lastname: lastname,
-      },
-      email: email,
-      password: password,
+      fullname: { firstname, lastname },
+      email,
+      password,
     });
     setFirstname('');
     setLastname('');
@@ -33,7 +30,7 @@ const CaptainSignup = () => {
       <form onSubmit={submitHandler} className="bg-white p-10 rounded-xl shadow-lg w-full max-w-md">
         <h3 className="text-3xl font-bold mb-6 text-gray-800 text-center">Captain Sign-Up</h3>
 
-        <label className="block text-lg font-medium mb-2 text-gray-700">Captain's Name</label>
+        <label className="block text-lg font-bold mb-2 text-gray-900">Captain's Name</label>
         <div className="flex gap-4 mb-4">
           <input
             type="text"
@@ -53,7 +50,7 @@ const CaptainSignup = () => {
           />
         </div>
 
-        <label className="block text-lg font-medium mb-2 text-gray-700">Captain's Email</label>
+        <label className="block text-lg font-bold mb-2 text-gray-900">Captain's Email</label>
         <input
           type="email"
           required
@@ -63,7 +60,7 @@ const CaptainSignup = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label className="block text-lg font-medium mb-2 text-gray-700">Password</label>
+        <label className="block text-lg font-bold mb-2 text-gray-900">Password</label>
         <input
           type="password"
           required
@@ -73,12 +70,12 @@ const CaptainSignup = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
+        <button className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition duration-300">
           Sign-Up
         </button>
 
-        <p className="text-center mt-4 text-gray-600">
-          Already have an account? <Link to="/captain-login" className="text-indigo-600 font-medium hover:underline">Login as Captain</Link>
+        <p className="text-center mt-4 text-gray-700 font-medium">
+          Already have an account? <Link to="/captain-login" className="text-black font-semibold hover:underline">Login as Captain</Link>
         </p>
       </form>
 

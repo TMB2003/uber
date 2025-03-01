@@ -8,10 +8,7 @@ const CaptainLogin = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setCaptainData({
-      email: email,
-      password,
-    });
+    setCaptainData({ email, password });
     setEmail('');
     setPassword('');
   };
@@ -25,7 +22,7 @@ const CaptainLogin = () => {
       <form onSubmit={submitHandler} className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md">
         <h3 className="text-3xl font-bold mb-6 text-gray-800 text-center">Captain Login</h3>
 
-        <label className="block text-lg font-medium mb-2 text-gray-700">Email</label>
+        <label className="block text-lg font-bold mb-2 text-gray-900">Email</label>
         <input
           type="email"
           required
@@ -35,7 +32,7 @@ const CaptainLogin = () => {
           placeholder="email@example.com"
         />
 
-        <label className="block text-lg font-medium mb-2 text-gray-700">Password</label>
+        <label className="block text-lg font-bold mb-2 text-gray-900">Password</label>
         <input
           type="password"
           required
@@ -45,13 +42,13 @@ const CaptainLogin = () => {
           placeholder="password"
         />
 
-        <button className="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-indigo-700 transition duration-300">
+        <button className="w-full bg-black text-white py-3 rounded-xl font-semibold text-lg hover:bg-gray-900 transition duration-300">
           Login
         </button>
 
-        <p className="text-center mt-6 text-gray-600 text-lg">
+        <p className="text-center mt-6 text-gray-700 text-lg">
           Join a fleet?{' '}
-          <Link to="/captain-signup" className="text-indigo-600 font-medium hover:underline">
+          <Link to="/captain-signup" className="text-black font-semibold hover:underline">
             Register as a Captain
           </Link>
         </p>
@@ -59,11 +56,12 @@ const CaptainLogin = () => {
 
       {/* Alternative Sign-In Option */}
       <Link
-        to="/login"
-        className="bg-[#d5622d] flex items-center justify-center text-white font-semibold rounded-xl px-6 py-3 mt-8 shadow-lg hover:bg-[#c05125] transition duration-300 w-full max-w-md"
-      >
-        Sign in as User
-      </Link>
+  to="/login"
+  className="bg-yellow-300 flex items-center justify-center text-black font-semibold rounded-xl px-6 py-3 mt-8 shadow-lg hover:bg-yellow-600 transition duration-300 w-full max-w-md"
+>
+  Sign in as User
+</Link>
+
     </div>
   );
 };

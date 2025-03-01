@@ -29,8 +29,8 @@ const UserSignup = () => {
       {/* Signup Form */}
       <form onSubmit={submitHandler} className="bg-white p-10 rounded-xl shadow-lg w-full max-w-md">
         <h3 className="text-3xl font-bold mb-6 text-gray-800 text-center">Sign-Up</h3>
-        
-        <label className="block text-lg font-medium mb-2 text-gray-700">What's your Name?</label>
+
+        <label className="block text-lg font-bold mb-2 text-gray-900">What's your Name?</label>
         <div className="flex gap-4">
           <input
             type="text"
@@ -50,7 +50,7 @@ const UserSignup = () => {
           />
         </div>
 
-        <label className="block text-lg font-medium mb-2 text-gray-700">What is your Email?</label>
+        <label className="block text-lg font-bold mb-2 text-gray-900">What is your Email?</label>
         <input
           type="email"
           required
@@ -60,7 +60,7 @@ const UserSignup = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label className="block text-lg font-medium mb-2 text-gray-700">Password</label>
+        <label className="block text-lg font-bold mb-2 text-gray-900">Password</label>
         <input
           type="password"
           required
@@ -70,18 +70,18 @@ const UserSignup = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
-          Sign-Up
+        <button className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition duration-300">
+          Create Account
         </button>
 
-        <p className="text-center mt-4 text-gray-600">
-          Already have an account? <Link to="/login" className="text-indigo-600 font-medium hover:underline">Login here</Link>
+        <p className="text-center mt-4 text-gray-700 font-medium">
+          Already have an account? <Link to="/login" className="text-black font-semibold hover:underline">Login here</Link>
         </p>
       </form>
 
       {/* Terms & Conditions */}
       <p className="text-xs text-gray-500 text-center leading-tight mt-6 max-w-md">
-        By proceeding, you agree to receive calls, WhatsApp messages, or SMS from Uber on your mobile number, which you can opt out of anytime. You also agree to our Terms of Service and Privacy Policy.
+        By proceeding, you agree to receive calls, WhatsApp messages, or SMS from Uber on your mobile number, which you can opt out of anytime. You also agree to our <span className="underline">Terms of Service</span> and <span className="underline">Privacy Policy</span>.
       </p>
     </div>
   );

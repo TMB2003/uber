@@ -21,8 +21,8 @@ const UserLogin = () => {
       {/* Login Form */}
       <form onSubmit={submitHandler} className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
         <h3 className="text-3xl font-bold mb-6 text-gray-800 text-center">Login</h3>
-        
-        <label className="block text-lg font-medium mb-2 text-gray-700">Email</label>
+
+        <label className="block text-lg font-bold mb-2 text-gray-900">Email</label>
         <input
           type="email"
           required
@@ -31,8 +31,8 @@ const UserLogin = () => {
           className="bg-gray-200 mb-4 rounded-lg px-4 py-3 border border-gray-300 w-full text-lg placeholder-gray-500 focus:outline-none focus:border-indigo-500"
           placeholder="email@example.com"
         />
-        
-        <label className="block text-lg font-medium mb-2 text-gray-700">Password</label>
+
+        <label className="block text-lg font-bold mb-2 text-gray-900">Password</label>
         <input
           type="password"
           required
@@ -41,19 +41,21 @@ const UserLogin = () => {
           className="bg-gray-200 mb-6 rounded-lg px-4 py-3 border border-gray-300 w-full text-lg placeholder-gray-500 focus:outline-none focus:border-indigo-500"
           placeholder="password"
         />
-        
-        <button className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300">
+
+        <button className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition duration-300">
           Login
         </button>
-        
-        <p className="text-center mt-4 text-gray-600">
-          New here? <Link to="/signup" className="text-indigo-600 font-medium hover:underline">Create Account</Link>
+
+        <p className="text-center mt-4 text-gray-700 font-medium">
+          New here? <Link to="/signup" className="text-black font-semibold hover:underline">Create Account</Link>
         </p>
       </form>
 
       {/* Captain Login Button */}
-      <Link to="/captain-login"
-        className="bg-green-500 text-white font-semibold rounded-lg px-6 py-3 mt-6 shadow-md hover:bg-green-600 transition duration-300">
+      <Link
+        to="/captain-login"
+        className="bg-yellow-300 flex items-center justify-center text-black font-semibold rounded-xl px-6 py-3 mt-8 shadow-lg hover:bg-yellow-600 transition duration-300 w-full max-w-md"
+      >
         Sign in as Captain
       </Link>
     </div>
