@@ -1,61 +1,71 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const CaptainLogin = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [captainData, setCaptainData] = useState({})
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [captainData, setCaptainData] = useState({});
 
   const submitHandler = (e) => {
     e.preventDefault();
     setCaptainData({
       email: email,
       password,
-    })
+    });
     setEmail('');
     setPassword('');
-  }
+  };
 
   return (
-    <div className="p-7 h-screen flex flex-col justify-between bg-gray-100">
-      <div>
-        <img className="w-16 ml-8 mt-8" src="/images/logo.png" alt="Uber Logo" />
-        <form onSubmit={submitHandler} className="bg-white p-8 rounded-lg shadow-lg mt-8">
-          <h3 className="text-3xl font-bold mb-6 text-gray-800">Login</h3>
-          <label className="block text-xl font-semibold mb-2 text-gray-700">Email</label>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="bg-gray-200 mb-4 rounded px-4 py-2 border border-gray-300 w-full text-lg placeholder-gray-500 focus:outline-none focus:border-indigo-500"
-            placeholder="email@example.com"
-          />
-          <label className="block text-xl font-semibold mb-2 text-gray-700">Password</label>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="bg-gray-200 mb-4 rounded px-4 py-2 border border-gray-300 w-full text-lg placeholder-gray-500 focus:outline-none focus:border-indigo-500"
-            placeholder="password"
-          />
-          <button className="w-full bg-indigo-600 text-white py-3 rounded-md font-semibold hover:bg-indigo-700 transition duration-300">
-            Login
-          </button>
-          <p className="text-center mt-4 text-gray-600">
-            Join a fleet? <Link to="/captain-signup" className="text-indigo-600">Register as a Captain</Link>
-          </p>
-        </form>
-      </div>
-      <div>
-        <Link to="/login"
-          className="bg-[#d5622d] flex items-center justify-center text-white font-semibold rounded px-4 py-2 mt-8 shadow-md hover:bg-green-600 transition duration-300">
-          Sign in as User
-        </Link>
-      </div>
-    </div>
-  )
-}
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 px-6 py-12">
+      {/* Logo */}
+      <img className="w-24 mb-8" src="/images/logo.png" alt="Uber Logo" />
 
-export default CaptainLogin
+      {/* Login Form */}
+      <form onSubmit={submitHandler} className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md">
+        <h3 className="text-3xl font-bold mb-6 text-gray-800 text-center">Captain Login</h3>
+
+        <label className="block text-lg font-medium mb-2 text-gray-700">Email</label>
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="bg-gray-200 rounded-xl px-4 py-3 border border-gray-300 w-full text-lg placeholder-gray-500 focus:outline-none focus:border-indigo-500 mb-6"
+          placeholder="email@example.com"
+        />
+
+        <label className="block text-lg font-medium mb-2 text-gray-700">Password</label>
+        <input
+          type="password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="bg-gray-200 rounded-xl px-4 py-3 border border-gray-300 w-full text-lg placeholder-gray-500 focus:outline-none focus:border-indigo-500 mb-8"
+          placeholder="password"
+        />
+
+        <button className="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-indigo-700 transition duration-300">
+          Login
+        </button>
+
+        <p className="text-center mt-6 text-gray-600 text-lg">
+          Join a fleet?{' '}
+          <Link to="/captain-signup" className="text-indigo-600 font-medium hover:underline">
+            Register as a Captain
+          </Link>
+        </p>
+      </form>
+
+      {/* Alternative Sign-In Option */}
+      <Link
+        to="/login"
+        className="bg-[#d5622d] flex items-center justify-center text-white font-semibold rounded-xl px-6 py-3 mt-8 shadow-lg hover:bg-[#c05125] transition duration-300 w-full max-w-md"
+      >
+        Sign in as User
+      </Link>
+    </div>
+  );
+};
+
+export default CaptainLogin;
