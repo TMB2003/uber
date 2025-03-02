@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { UserDataContext } from '../context/UserContext';
@@ -12,7 +12,7 @@ const UserSignup = () => {
 
   const navigate = useNavigate();
 
-  const [user, setUser] = React.useContext(UserDataContext);
+  const { user, setUser } = useContext(UserDataContext);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -22,7 +22,7 @@ const UserSignup = () => {
       password,
     };
 
-    const response = await axios.post(`${import.meta.env.VITE_API}/users/signup`, newUser);
+    const response = await axios.post(`${import.meta.env.VITE_API}/users/register`, newUser);
     
     if(response.status === 201) {
       const data = response.data;
@@ -38,7 +38,7 @@ const UserSignup = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-6 py-12">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-6 py-6">
       {/* Logo */}
       <img className="w-20 mb-4" src="/images/logo.png" alt="Uber Logo" />
 

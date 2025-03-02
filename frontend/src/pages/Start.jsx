@@ -8,7 +8,7 @@ const Start = () => {
       style={{ backgroundImage: "url('/images/home.jpg')" }}
     >
       {/* Logo */}
-      <img className="w-20 absolute top-8 left-8 sm:w-24" src="/images/logo.png" alt="Uber Logo" />
+      <img className="w-20 absolute top-5 left-5 sm:w-24" src="/images/logo.png" alt="Uber Logo" />
 
       {/* White Card Positioned at Bottom */}
       <div className="bg-white bg-opacity-95 rounded-t-3xl shadow-2xl p-8 sm:p-12 md:p-16 w-full absolute bottom-0 left-0">

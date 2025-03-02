@@ -33,7 +33,7 @@ const UserLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-6 py-12">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-6 py-6">
       {/* Logo */}
       <img className="w-20 mb-8" src="/images/logo.png" alt="Uber Logo" />
 

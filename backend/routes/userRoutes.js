@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {body} = require('express-validator');
 const userController = require('../controllers/userController');
-const authMiddleware = require('../middleware/authMiddleware');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 router.post('/register', [
     body('fullname').isLength({min: 3}).withMessage('Please enter a valid fullname'),

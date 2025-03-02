@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CaptainDataContext } from '../context/CaptainContext';
-import axios from axios;
+import axios from 'axios';
 
 const CaptainSignup = () => {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const CaptainSignup = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-6 py-12">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-6 py-6">
       {/* Logo */}
       <img className="w-20 mb-6" src="/images/logo.png" alt="Uber Logo" />
 
