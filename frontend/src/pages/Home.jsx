@@ -23,11 +23,6 @@ const Home = () => {
   const getVehicleRef = useRef(null);
   const waitingForDriverRef = useRef(null);
 
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-  };
-
   useEffect(() => {
     if (panelOpen) {
       gsap.to(panelRef.current, {
@@ -51,57 +46,69 @@ const Home = () => {
     }
   }, [panelOpen]);
 
-  useGSAP(function () {
-    if(vehiclePanelOpen){
+  useEffect(() => {
+    if (vehiclePanelOpen) {
       gsap.to(vehiclePanelRef.current, {
-        transform: 'translateY(0)'
-      })
-    }
-    else{
+        y: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+      });
+    } else {
       gsap.to(vehiclePanelRef.current, {
-        transform: 'translateY(100%)'
-      })
+        y: '100%',
+        duration: 0.5,
+        ease: 'power2.out',
+      });
     }
-  },[vehiclePanelOpen])
+  }, [vehiclePanelOpen]);
 
-  useGSAP(function () {
-    if(confirmRidePanel){
+  useEffect(() => {
+    if (confirmRidePanel) {
       gsap.to(confirmRidePanelRef.current, {
-        transform: 'translateY(0)'
-      })
-    }
-    else{
+        y: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+      });
+    } else {
       gsap.to(confirmRidePanelRef.current, {
-        transform: 'translateY(100%)'
-      })
+        y: '100%',
+        duration: 0.5,
+        ease: 'power2.out',
+      });
     }
-  },[confirmRidePanel])
+  }, [confirmRidePanel]);
 
-  useGSAP(function () {
-    if(getVehicle){
+  useEffect(() => {
+    if (getVehicle) {
       gsap.to(getVehicleRef.current, {
-        transform: 'translateY(0)'
-      })
-    }
-    else{
+        y: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+      });
+    } else {
       gsap.to(getVehicleRef.current, {
-        transform: 'translateY(100%)'
-      })
+        y: '100%',
+        duration: 0.5,
+        ease: 'power2.out',
+      });
     }
-  },[getVehicle])
+  }, [getVehicle]);
 
-  useGSAP(function () {
-    if(waitingForDriver){
+  useEffect(() => {
+    if (waitingForDriver) {
       gsap.to(waitingForDriverRef.current, {
-        transform: 'translateY(0)'
-      })
-    }
-    else{
+        y: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+      });
+    } else {
       gsap.to(waitingForDriverRef.current, {
-        transform: 'translateY(100%)'
-      })
+        y: '100%',
+        duration: 0.5,
+        ease: 'power2.out',
+      });
     }
-  },[waitingForDriver])
+  }, [waitingForDriver]);
 
   return (
     <div className="h-screen relative flex flex-col">
@@ -127,7 +134,7 @@ const Home = () => {
         <div className={`h-[${panelOpen ? '72%' : '30%'}] p-5 bg-white shadow-lg`}>
           <h4 className="text-2xl font-bold text-gray-800">Find a Ride</h4>
 
-          <form onSubmit={submitHandler} className="mt-4 relative">
+          <form className="mt-4 relative">
             <input
               onClick={() => setPanelOpen(true)}
               value={pickup}
@@ -147,9 +154,8 @@ const Home = () => {
           </form>
         </div>
 
-        {/* Animated Panel */}
+        {/* Animated Panels */}
         <div ref={panelRef} className="bg-white w-full absolute bottom-0 left-0 overflow-hidden">
-          {/* Additional content can be added here */}
           <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanelOpen={setVehiclePanelOpen} />
         </div>
       </div>
@@ -162,7 +168,7 @@ const Home = () => {
       <div ref={getVehicleRef} className='fixed w-full z-10 bottom-0 bg-white px-3 py-6 pt-12 translate-y-full'>
         <LookingForDriver setGetVehicle={setGetVehicle} />
       </div>
-      <div ref={waitingForDriverRef} className='fixed w-full z-10 bottom-0 bg-white px-3 py-6 pt-12 '>
+      <div ref={waitingForDriverRef} className='fixed w-full z-10 bottom-0 bg-white px-3 py-6 pt-12 translate-y-full'>
         <WaitingForDriver setWaitingForDriver={setWaitingForDriver} />
       </div>
     </div>

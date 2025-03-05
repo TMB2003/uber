@@ -9,7 +9,6 @@ const Riding = () => {
         </Link>
         <div className='h-1/2'>
             <img src="/images/map.jpg" alt="" />
-            
         </div>
         <div className='h-1/2 p-4'>
         <div className='flex items-center justify-between'>
