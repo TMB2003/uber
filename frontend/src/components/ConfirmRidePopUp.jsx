@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 
 
 const ConfirmRidePopUp = (props) => {
-    const [otp, setOtp] = useState('')
+    const [otp, setOtp] = useState('');
 
     const submitHandler = (e) => {
         e.preventDefault();

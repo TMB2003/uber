@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const captainSchema = new mongoose.Schema({
     fullname: {
@@ -10,7 +12,7 @@ const captainSchema = new mongoose.Schema({
         lastname: {
             type: String,
             required: true,
-            minlength: [3, 'Firstname must be at least 3 characters long'],
+            minlength: [3, 'Lastname must be at least 3 characters long'],
         }
     },
     email: {
@@ -18,9 +20,9 @@ const captainSchema = new mongoose.Schema({
         required: true,
         unique: true,
         lowercase: true,
-        match: [ /^\S+@\S+\.\S+$/, "Please Enter valid Email"]
+        match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"]
     },
-    password:{
+    password: {
         type: String,
         required: true,
         select: false,
@@ -28,26 +30,31 @@ const captainSchema = new mongoose.Schema({
     socketId: {
         type: String,
     },
-    status:{
+    status: {
         type: String,
         enum: ['active', 'inactive'],
         default: 'active',
     },
     vehicle: {
-        color:{
+        color: {
             type: String,
             required: true,
-            minlength: [3, "Color Must be more than 3 characters long"]
+            minlength: [3, "Color must be at least 3 characters long"]
         },
         plate: {
             type: String,
             required: true,
-            minlength: [3, "Plate Must be more than 3 characters long"] 
+            minlength: [3, "Plate must be at least 3 characters long"]
         },
         capacity: {
-            type: Number,
+            type: String,
             required: true,
-            minlength: [1, "Capacity must be more than 1"]
+            validate: {
+                validator: function (value) {
+                    return /^[1-9]\d*$/.test(value); // Ensure it's a positive integer string
+                },
+                message: "Capacity must be a positive number"
+            }
         },
         vehicleType: {
             type: String,
@@ -55,21 +62,26 @@ const captainSchema = new mongoose.Schema({
             enum: ['car', 'motorcycle', 'auto']
         }
     },
-    location:{
-        lat:{
-            type: Number,
-        },
-        lng: {
-            type: Number,
-        }
+    location: {
+        lat: Number,
+        lng: Number
     }
-})
+});
 
+// Generate JWT Token
 captainSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {expiresIn: '24h'});
-    return token;
-}
+    return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+};
 
-const captainModel = mongoose.model('captain', captainSchema);
+// Compare Password
+captainSchema.methods.comparePassword = async function (password) {
+    return await bcrypt.compare(password, this.password);
+};
 
-module.exports = captainModel;
+// Hash Password
+captainSchema.statics.hashPassword = async function (password) {
+    return await bcrypt.hash(password, 10);
+};
+
+const Captain = mongoose.model('Captain', captainSchema);
+module.exports = Captain;

@@ -1,16 +1,35 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const CaptainLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [captainData, setCaptainData] = useState({});
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setCaptainData({ email, password });
-    setEmail('');
-    setPassword('');
+    setError(null);
+    setLoading(true);
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API}/captains/login`, {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        localStorage.setItem('captainToken', response.data.token);
+        navigate('/captain-dashboard'); // Redirect on success
+      }
+    } catch (err) {
+      setError('Invalid email or password.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -21,6 +40,8 @@ const CaptainLogin = () => {
       {/* Login Form */}
       <form onSubmit={submitHandler} className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md">
         <h3 className="text-3xl font-bold mb-6 text-gray-800 text-center">Captain Login</h3>
+
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <label className="block text-lg font-bold mb-2 text-gray-900">Email</label>
         <input
@@ -42,8 +63,12 @@ const CaptainLogin = () => {
           placeholder="password"
         />
 
-        <button className="w-full bg-black text-white py-3 rounded-xl font-semibold text-lg hover:bg-gray-900 transition duration-300">
-          Login
+        <button
+          type="submit"
+          className="w-full bg-black text-white py-3 rounded-xl font-semibold text-lg hover:bg-gray-900 transition duration-300"
+          disabled={loading}
+        >
+          {loading ? 'Logging in...' : 'Login'}
         </button>
 
         <p className="text-center mt-6 text-gray-700 text-lg">
@@ -56,12 +81,11 @@ const CaptainLogin = () => {
 
       {/* Alternative Sign-In Option */}
       <Link
-  to="/login"
-  className="bg-yellow-300 flex items-center justify-center text-black font-semibold rounded-xl px-6 py-3 mt-8 shadow-lg hover:bg-yellow-600 transition duration-300 w-full max-w-md"
->
-  Sign in as User
-</Link>
-
+        to="/login"
+        className="bg-yellow-300 flex items-center justify-center text-black font-semibold rounded-xl px-6 py-3 mt-8 shadow-lg hover:bg-yellow-600 transition duration-300 w-full max-w-md"
+      >
+        Sign in as User
+      </Link>
     </div>
   );
 };

@@ -1,40 +1,33 @@
-const userModel = require('../models/userModel');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const BlackListToken = require('../models/blacklistTokenModel')
+const BlackListToken = require('../models/blacklistTokenModel');
+const userModel = require('../models/userModel');
+const captainModel = require('../models/captianModel');
 
-module.exports.authUser = async (req, res, next) => {
-    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
-    if(!token) return res.status(401).json({message: 'Unauthorized'});
-
-    const blacklistedToken = await BlackListToken.findOne({token});
-    if(blacklistedToken) return res.status(401).json({message: 'Unauthorized'});
-
+// Generic Authentication Middleware
+const authenticate = (role) => async (req, res, next) => {
     try {
+        const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+        console.log("Extracted Token:", token); // Debugging
+
+        if (!token) return res.status(401).json({ message: 'Unauthorized: No token provided' });
+
+        const blacklistedToken = await BlackListToken.findOne({ token });
+        if (blacklistedToken) return res.status(401).json({ message: 'Unauthorized: Token blacklisted' });
+
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await userModel.findById(decoded._id);
-        if(!user) return res.status(404).json({message: 'User not found'});
-        req.user = user;
+        const model = role === 'captain' ? captainModel : userModel;
+
+        const account = await model.findById(decoded._id);
+        if (!account) return res.status(404).json({ message: `${role.charAt(0).toUpperCase() + role.slice(1)} not found` });
+
+        req[role] = account;
+        console.log(`Authenticated ${role}:`, req[role]); // Debug log
         next();
     } catch (error) {
-        res.status(401).json({message: 'Unauthorized'});
+        console.error("Auth Error:", error);
+        res.status(401).json({ message: 'Unauthorized: Invalid token', error: error.message });
     }
-}
+};
 
-module.exports.authCaptain = async (req, res, next) => {
-    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
-    if(!token) return res.status(401).json({message: 'Unauthorized'});
-
-    const blacklistedToken = await BlackListToken.findOne({token});
-    if(blacklistedToken) return res.status(401).json({message: 'Unauthorized'});
-
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const captain = await captainModel.findById(decoded._id);
-        if(!captain) return res.status(404).json({message: 'Captain not found'});
-        req.captain = captain;
-        next();
-    } catch (error) {
-        res.status(401).json({message: 'Unauthorized'});
-    }
-}
+module.exports.authUser = authenticate('user');
+module.exports.authCaptain = authenticate('captain');

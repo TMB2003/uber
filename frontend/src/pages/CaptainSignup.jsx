@@ -12,12 +12,22 @@ const CaptainSignup = () => {
   const [vehicleColor, setVehicleColor] = useState('');
   const [vehiclePlate, setVehiclePlate] = useState('');
   const [vehicleCapacity, setVehicleCapacity] = useState('');
-  const [vehicleType, setVehicleType] = useState('Car'); // Default value is "Car"
+  const [vehicleType, setVehicleType] = useState('Car'); // Default value
+  const [errorMessage, setErrorMessage] = useState('');
 
   const { captain, setCaptain } = useContext(CaptainDataContext);
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    setErrorMessage(''); // Clear previous errors
+
+    // Convert capacity to number and validate
+    const capacity = Number(vehicleCapacity);
+    if (isNaN(capacity) || capacity < 1) {
+      setErrorMessage('Vehicle capacity must be at least 1.');
+      return;
+    }
+
     const captainData = {
       fullname: { firstname, lastname },
       email,
@@ -25,37 +35,44 @@ const CaptainSignup = () => {
       vehicle: {
         color: vehicleColor,
         plate: vehiclePlate,
-        capacity: vehicleCapacity,
-        type: vehicleType,
+        capacity,  // Send as number
+        vehicleType: vehicleType.toLowerCase() 
       },
     };
-    const response = await axios.post(`${import.meta.env.VITE_API}/captains/register`, captainData)
-    if(response.status === 201){
-      const data = response.data
-      setCaptain(data.captain)
-      localStorage.setItem('token', data.token)
-      navigate('/captain-home')
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API}/captains/register`, captainData);
+
+      if (response.status === 201) {
+        const data = response.data;
+        setCaptain(data.captain);
+        localStorage.setItem('token', data.token);
+        navigate('/captain-dashboard');
+
+        // Reset fields only after successful signup
+        setFirstname('');
+        setLastname('');
+        setEmail('');
+        setPassword('');
+        setVehicleColor('');
+        setVehiclePlate('');
+        setVehicleCapacity('');
+        setVehicleType('Car');
+      }
+    } catch (error) {
+      setErrorMessage(error.response?.data?.msg || 'Something went wrong. Please try again.');
     }
-    
-    // Reset fields after submission
-    setFirstname('');
-    setLastname('');
-    setEmail('');
-    setPassword('');
-    setVehicleColor('');
-    setVehiclePlate('');
-    setVehicleCapacity('');
-    setVehicleType('Car'); // Reset dropdown to default
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-6 py-6">
-      {/* Logo */}
       <img className="w-20 mb-6" src="/images/logo.png" alt="Uber Logo" />
 
-      {/* Signup Form */}
       <form onSubmit={submitHandler} className="bg-white p-10 rounded-xl shadow-lg w-full max-w-md">
         <h3 className="text-3xl font-bold mb-6 text-gray-800 text-center">Captain Sign-Up</h3>
+
+        {/* Show Error Messages */}
+        {errorMessage && <p className="text-red-600 text-center font-semibold mb-4">{errorMessage}</p>}
 
         {/* Captain Name */}
         <label className="block text-lg font-bold mb-2 text-gray-900">Captain's Name</label>
@@ -130,6 +147,7 @@ const CaptainSignup = () => {
         <input
           type="number"
           required
+          min="1"
           className="bg-gray-200 rounded-lg px-4 py-3 border border-gray-300 w-full text-lg placeholder-gray-500 focus:outline-none focus:border-indigo-500 mb-4"
           placeholder="e.g., 4"
           value={vehicleCapacity}
@@ -149,7 +167,7 @@ const CaptainSignup = () => {
           <option value="Bike">Bike</option>
         </select>
 
-        {/* Create Captain Account Button */}
+        {/* Submit Button */}
         <button className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition duration-300">
           Create Captain Account
         </button>
@@ -161,13 +179,6 @@ const CaptainSignup = () => {
           </Link>
         </p>
       </form>
-
-      {/* Terms and Conditions */}
-      <p className="text-xs text-gray-500 text-center mt-6 px-6 leading-tight">
-        By proceeding, you agree to receive calls, WhatsApp messages, or SMS from Uber on your mobile number, which you
-        can opt out of anytime. You also agree to our <span className="underline">Terms of Service</span> and{' '}
-        <span className="underline">Privacy Policy</span>.
-      </p>
     </div>
   );
 };
