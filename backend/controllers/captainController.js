@@ -82,11 +82,25 @@ module.exports.logoutCaptain = async (req, res) => {
         const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
         if (!token) return res.status(400).json({ message: 'No token provided' });
 
-        // Verify token before blacklisting
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        // Check if token is already blacklisted
+        const isBlacklisted = await BlackListToken.findOne({ token });
+        if (isBlacklisted) return res.status(400).json({ message: "Token already blacklisted" });
 
+        // Verify token before blacklisting
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET);
+        } catch (err) {
+            return res.status(401).json({ message: 'Invalid or expired token' });
+        }
+
+        // Blacklist token
         await BlackListToken.create({ token });
-        res.clearCookie('token');
+
+        // Clear token from cookies (only if stored in cookies)
+        if (req.cookies.token) {
+            res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
+        }
 
         res.status(200).json({ message: 'Captain logged out successfully' });
     } catch (error) {

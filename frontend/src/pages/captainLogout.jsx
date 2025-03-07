@@ -1,12 +1,13 @@
 import React from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const CaptainLogout = () => {
 
     const token = localStorage.getItem('token')
     const navigate = useNavigate();
-
-    axios.get(`${import.meta.env.VITE_API}/captains/logout`, {
+    
+    axios.post(`${import.meta.env.VITE_API}/captains/logout`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
