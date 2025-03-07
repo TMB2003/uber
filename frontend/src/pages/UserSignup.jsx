@@ -16,27 +16,29 @@ const UserSignup = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const newUser = {
-      fullname: { firstname, lastname },
-      email,
-      password,
-    };
-
-    const response = await axios.post(`${import.meta.env.VITE_API}/users/register`, newUser);
-    
-    if(response.status === 201) {
-      const data = response.data;
-      setUser(data.user);
-      localStorage.setItem('token', data.token)
-      navigate('/home'); 
+    try {
+      const newUser = {
+        fullname: { firstname, lastname },
+        email,
+        password,
+      };
+  
+      console.log("Sending data:", newUser); // Debugging
+  
+      const response = await axios.post(`${import.meta.env.VITE_API}/users/register`, newUser);
+  
+      console.log("Response:", response.data); // Debugging
+  
+      if (response.status === 201) {
+        setUser(response.data.user);
+        localStorage.setItem('token', response.data.token);
+        navigate('/home');
+      }
+    } catch (error) {
+      console.error("Signup error:", error.response?.data || error.message);
     }
-
-    setFirstname('');
-    setLastname('');
-    setEmail('');
-    setPassword('');
   };
-
+  
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-6 py-6">
       {/* Logo */}

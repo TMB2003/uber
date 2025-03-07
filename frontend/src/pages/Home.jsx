@@ -14,13 +14,11 @@
     const panelRef = useRef(null);
     const panelCloseRef = useRef(null);
     const [vehiclePanelOpen, setVehiclePanelOpen] = useState(false);
-    const [confirmRidePanel, setConfirmRidePanel] = useState(false);
     const [confirmPanel , setConfirmPanel] = useState(false);
     const [getVehicle, setGetVehicle] = useState(false);
     const [waitingForDriver, setWaitingForDriver] = useState(false);
 
     const vehiclePanelRef = useRef(null);
-    const confirmRidePanelRef = useRef(null);
     const confirmPanelRef = useRef(null);
     const getVehicleRef = useRef(null);
     const waitingForDriverRef = useRef(null);
@@ -62,18 +60,7 @@
           ease: 'power2.out',
         });
       }
-    }, [vehiclePanelOpen]);
-
-    useEffect(() => {
-      if (confirmRidePanelRef.current) {
-          gsap.to(confirmRidePanelRef.current, {
-              y: confirmRidePanel ? '0%' : '100vh', // Ensure correct direction
-              duration: 0.5,
-              ease: 'power2.out',
-          });
-      }
-  }, [confirmRidePanel]);
-  
+    }, [vehiclePanelOpen]);  
 
   useEffect(() => {
     if (confirmPanel) {

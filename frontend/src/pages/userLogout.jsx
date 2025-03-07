@@ -1,27 +1,34 @@
-import React from 'react'
-import axios from 'axios'
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const userLogout = () => {
-
-    const token = localStorage.getItem('token')
+const UserLogout = () => {
     const navigate = useNavigate();
 
-    axios.get(`${import.meta.env.VITE_API}/users/logout`, {
-        headers: {
-            Authorization: `Bearer ${token}`
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login');
+            return;
         }
-    }).then((response) => {
-        if (response.status === 200) {
-            localStorage.removeItem('token');
-            navigate('/login')
-        }
-    }).catch((error) => {
-        console.log(error);
-    })
+
+        axios.get(`${import.meta.env.VITE_API}/users/logout`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then((response) => {
+            if (response.status === 200) {
+                localStorage.removeItem('token');
+                navigate('/login');
+            }
+        }).catch((error) => {
+            console.error("Logout error:", error);
+        });
+    }, [navigate]); // Only runs once when component mounts
 
     return (
-        <div>userLogout</div>
-    )
-}
+        <div>Logging out...</div>
+    );
+};
 
-export default userLogout
+export default UserLogout;

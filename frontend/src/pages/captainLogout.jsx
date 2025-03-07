@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 
-const captainLogout = () => {
+const CaptainLogout = () => {
 
     const token = localStorage.getItem('token')
     const navigate = useNavigate();
@@ -25,4 +25,4 @@ const captainLogout = () => {
     )
 }
 
-export default captainLogout
+export default CaptainLogout
