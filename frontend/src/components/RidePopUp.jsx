@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-const RidePopUp = ({ setRidePopUpPanel, setConfirmRidePopUpPanel }) => {
+const RidePopUp = (props) => {
     const popupRef = useRef(null);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const RidePopUp = ({ setRidePopUpPanel, setConfirmRidePopUpPanel }) => {
             opacity: 0,
             duration: 0.5,
             ease: "power2.in",
-            onComplete: () => setRidePopUpPanel(false),
+            onComplete: () => props.setRidePopUpPanel(false),
         });
     };
 
@@ -48,7 +48,7 @@ const RidePopUp = ({ setRidePopUpPanel, setConfirmRidePopUpPanel }) => {
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGa8nbA4_Y8eEKDf7xiwty91QSKdjt77_UwQ&s"
                             alt="Rider"
                         />
-                        <h2 className="text-xl font-medium">Rider's Name</h2>
+                        <h2 className="text-xl font-medium">{props.ride?.user.fullname.firstname + " " + props.ride?.user.fullname.lastname}</h2>
                     </div>
                     <h5 className="text-lg font-semibold">2.2 KM</h5>
                 </div>
@@ -59,7 +59,7 @@ const RidePopUp = ({ setRidePopUpPanel, setConfirmRidePopUpPanel }) => {
                         <i className="text-xl ri-map-pin-user-fill text-blue-500"></i>
                         <div>
                             <h3 className="text-lg font-semibold">562/11-A</h3>
-                            <p className="text-sm text-gray-600">Dadar, Mumbai</p>
+                            <p className="text-sm text-gray-600">{props.ride?.pickup}</p>
                         </div>
                     </div>
 
@@ -67,14 +67,14 @@ const RidePopUp = ({ setRidePopUpPanel, setConfirmRidePopUpPanel }) => {
                         <i className="text-xl ri-map-pin-2-fill text-red-500"></i>
                         <div>
                             <h3 className="text-lg font-semibold">562/11-A</h3>
-                            <p className="text-sm text-gray-600">Dadar, Mumbai</p>
+                            <p className="text-sm text-gray-600">{props.ride?.destination}</p>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-4 p-3">
                         <i className="text-xl ri-currency-line text-green-500"></i>
                         <div>
-                            <h3 className="text-lg font-semibold">$19.20</h3>
+                            <h3 className="text-lg font-semibold">{props.ride?.fare}</h3>
                             <p className="text-sm text-gray-600">Cash</p>
                         </div>
                     </div>
@@ -92,7 +92,8 @@ const RidePopUp = ({ setRidePopUpPanel, setConfirmRidePopUpPanel }) => {
                         className="w-1/2 bg-black text-white font-semibold py-3 rounded-lg hover:bg-gray-900 transition"
                         onClick={() => {
                             closePopup();
-                            setConfirmRidePopUpPanel(true);
+                            props.setConfirmRidePopUpPanel(true);
+                            props.confirmRide();
                         }}
                     >
                         Accept Ride

@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import FinishRide from '../components/FinishRide';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const CaptainRiding = () => {
     const [finishRidePanel, setFinishRidePanel] = useState(false);
     const FinishRidePanelRef = useRef(null);
+    const location = useLocation();
+    const rideData = location.state?.ride;
 
     useEffect(() => {
         if (finishRidePanel) {
@@ -62,14 +64,14 @@ const CaptainRiding = () => {
                         <p className='text-gray-600 text-sm flex items-center gap-1'>
                             <i className="ri-star-fill text-yellow-500"></i> {driver.rating} ★
                         </p>
-                        <p className='text-gray-600 text-sm'>{driver.vehicle}</p>
+                        <p className='text-gray-600 text-sm'>Swift Dzire</p>
                     </div>
                 </div>
             </div>
 
             {/* Finish Ride Panel */}
             <div ref={FinishRidePanelRef} className='fixed w-full z-10 bottom-0 bg-white px-5 py-10 pt-14 translate-y-full shadow-lg rounded-t-lg'>
-                <FinishRide setFinishRidePanel={setFinishRidePanel} />
+                <FinishRide ride={rideData} setFinishRidePanel={setFinishRidePanel} />
             </div>
         </div>
     );

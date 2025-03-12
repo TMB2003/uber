@@ -1,6 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
+import {CaptainDataContext} from "../context/CaptainContext"
 
 const CaptainDetails = () => {
+  const {captain} = useContext(CaptainDataContext)
+
+
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
       {/* Driver Info */}
@@ -11,7 +15,7 @@ const CaptainDetails = () => {
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAp3Z1hXfTVTKtbw3vE75-rtfr1ZCFcPSw4A&s"
             alt="Driver"
           />
-          <h4 className="text-lg font-medium">Driver Name</h4>
+          <h4 className="text-lg capitalize font-medium">{captain.fullname.firstname + " " + captain.fullname.lastname}</h4>
         </div>
 
         <div className="text-right">
@@ -30,7 +34,7 @@ const CaptainDetails = () => {
 
         <div className="text-center">
           <i className="text-3xl mb-2 text-green-500 ri-speed-up-line"></i>
-          <h5 className="text-lg font-medium">24</h5>
+          <h5 className="text-lg font-medium">12</h5>
           <p className="text-sm text-gray-600">Rides Completed</p>
         </div>
 
